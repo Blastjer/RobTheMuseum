@@ -1,5 +1,6 @@
 package RobTheMuseum;
 
+import java.util.ArrayList;
 import javax.swing.JLabel;
 
 public class Guard extends MovingCharacter {
@@ -121,7 +122,7 @@ public class Guard extends MovingCharacter {
     }
     
     @Override
-    public void update(int[] roomBounds, int[] connections, Player player) {
+    public void update(int[] roomBounds, int[] connections, Player player, ArrayList<GameCharacter> nmc) { //nmc won't be used here
         int playerX = player.getGraphic().getX();
         int playerY = player.getGraphic().getY();
         int playerRoom = player.getRoom();
@@ -136,7 +137,7 @@ public class Guard extends MovingCharacter {
         //try to catch the player if they are in the same room
         if(getRoom() == playerRoom) catchPlayer(playerX, playerY);
         
-        super.update(roomBounds, connections, player);
+        super.update(roomBounds, connections, player, nmc);
     }
     
     @Override

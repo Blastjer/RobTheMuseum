@@ -140,8 +140,18 @@ public class RobTheMuseum extends javax.swing.JFrame {
                 
         //update the characters
         for(GameCharacter c : characters) {
+            //if c is a MovingCharacter, create an ArrayList of non moving characters (used for movement boundaries)
+            ArrayList<GameCharacter> nonMovingCharacters = new ArrayList<>();
+            if(c instanceof MovingCharacter) {
+                for(GameCharacter gc : characters) {
+                    if(!(gc instanceof MovingCharacter)) {
+                        nonMovingCharacters.add(gc);
+                    }
+                }
+            }
+            
             int characterRoom = c.getRoom();
-            c.update(roomBounds, museum.getRooms().get(characterRoom).getConnections(), player);
+            c.update(roomBounds, museum.getRooms().get(characterRoom).getConnections(), player, nonMovingCharacters);
         }
         
         //change the background image

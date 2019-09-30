@@ -1,5 +1,6 @@
 package RobTheMuseum;
 
+import java.util.ArrayList;
 import javax.swing.JLabel;
 
 public abstract class MovingCharacter extends GameCharacter {
@@ -106,7 +107,7 @@ public abstract class MovingCharacter extends GameCharacter {
     }
     
     @Override
-    public void update(int[] roomBounds, int[] connections, Player player) {
+    public void update(int[] roomBounds, int[] connections, Player player, ArrayList<GameCharacter> nonMovingCharacters) {
         //move characters within the room
         moveInRoom(roomBounds);
         

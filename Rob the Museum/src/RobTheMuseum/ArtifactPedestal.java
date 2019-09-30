@@ -1,5 +1,6 @@
 package RobTheMuseum;
 
+import java.util.ArrayList;
 import javax.swing.JLabel;
 
 public class ArtifactPedestal extends GameCharacter {
@@ -16,7 +17,7 @@ public class ArtifactPedestal extends GameCharacter {
     }
     
     @Override
-    public void update(int[] r, int[] c, Player p) { //the parameters will not be used
+    public void update(int[] r, int[] c, Player p, ArrayList<GameCharacter> nmc) { //the parameters will not be used
         //toggle visibility depending on whether or not the pedestal and the player are in the same room
         if(getRoom() == p.getRoom()) getGraphic().setVisible(true);
         else getGraphic().setVisible(false);

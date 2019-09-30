@@ -1,5 +1,6 @@
 package RobTheMuseum;
 
+import java.util.ArrayList;
 import javax.swing.JLabel;
 
 public abstract class GameCharacter {
@@ -27,6 +28,6 @@ public abstract class GameCharacter {
         room = r;
     }
     
-    public abstract void update(int[] roomBounds, int[] connections, Player player);
+    public abstract void update(int[] roomBounds, int[] connections, Player player, ArrayList<GameCharacter> nonMovingCharacters);
     protected abstract void initializeGraphic();
 }
