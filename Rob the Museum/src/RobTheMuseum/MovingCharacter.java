@@ -28,16 +28,30 @@ public abstract class MovingCharacter extends GameCharacter {
         movementDirections = md;
     }
     
-    private void moveInRoom(int[] roomBounds) {
+    private void moveInRoom(int[] roomBounds, ArrayList<GameCharacter> nonMovingCharacters) {
         //move within the room
-        //move the graphic as long as it does not pass the boundaries of the room
+        //move the graphic as long as it does not pass the boundaries of the nonmoving characters
         JLabel graphic = getGraphic();
         int x = graphic.getX();
         int y = graphic.getY();
         if(movementDirections[0]) { //moving up
             //if the speed is greater than the distance to the boundary, reduce the speed until it is equal or less than that distance
             for(int ableSpeed = moveSpeed; ableSpeed > 0; ableSpeed--) {
-                if(y-ableSpeed >= roomBounds[0]) {
+                
+                boolean canMove = true;
+                for(GameCharacter c : nonMovingCharacters) {
+                    if(y-ableSpeed < c.getGraphic().getY()+c.getGraphic().getHeight() &&
+                       x+graphic.getWidth() > c.getGraphic().getX() &&
+                       x < c.getGraphic().getX()+c.getGraphic().getWidth()) {
+                        canMove = false;
+                        
+                        if(y+graphic.getHeight() <= c.getGraphic().getY()) canMove = true;
+                    }
+                }
+                
+                if(canMove && y-ableSpeed < roomBounds[0]) canMove = false;
+                
+                if(canMove) {
                     y -= ableSpeed;
                     break;
                 }
@@ -45,7 +59,21 @@ public abstract class MovingCharacter extends GameCharacter {
         }
         if(movementDirections[1]) { //moving right
             for(int ableSpeed = moveSpeed; ableSpeed > 0; ableSpeed--) {
-                if(x+graphic.getWidth()+ableSpeed <= roomBounds[1]) {
+                
+                boolean canMove = true;
+                for(GameCharacter c : nonMovingCharacters) {
+                    if(x+graphic.getWidth()+ableSpeed > c.getGraphic().getX() &&
+                       y+graphic.getHeight() > c.getGraphic().getY() &&
+                       y < c.getGraphic().getY()+c.getGraphic().getHeight()) {
+                        canMove = false;
+                        
+                        if(x >= c.getGraphic().getX()+c.getGraphic().getWidth()) canMove = true;
+                    }
+                }
+                
+                if(x+graphic.getWidth()+ableSpeed > roomBounds[1]) canMove = false;
+                
+                if(canMove) {
                     x += ableSpeed;
                     break;
                 }
@@ -53,7 +81,21 @@ public abstract class MovingCharacter extends GameCharacter {
         }
         if(movementDirections[2]) { //moving down
             for(int ableSpeed = moveSpeed; ableSpeed > 0; ableSpeed--) {
-                if(y+graphic.getHeight()+ableSpeed <= roomBounds[2]) {
+                
+                boolean canMove = true;
+                for(GameCharacter c : nonMovingCharacters) {
+                    if(y+graphic.getHeight()+ableSpeed > c.getGraphic().getY() &&
+                       x+graphic.getWidth() > c.getGraphic().getX() &&
+                       x < c.getGraphic().getX()+c.getGraphic().getWidth()) {
+                        canMove = false;
+                        
+                        if(y >= c.getGraphic().getY()+c.getGraphic().getHeight()) canMove = true;
+                    }
+                }
+                
+                if(y+graphic.getHeight()+ableSpeed > roomBounds[2]) canMove = false;
+                
+                if(canMove) {
                     y += ableSpeed;
                     break;
                 }
@@ -61,7 +103,21 @@ public abstract class MovingCharacter extends GameCharacter {
         }
         if(movementDirections[3]) { //moving left
             for(int ableSpeed = moveSpeed; ableSpeed > 0; ableSpeed--) {
-                if(x-ableSpeed >= roomBounds[3]) {
+                
+                boolean canMove = true;
+                for(GameCharacter c : nonMovingCharacters) {
+                    if(x-ableSpeed < c.getGraphic().getX()+c.getGraphic().getWidth() &&
+                       y+graphic.getHeight() > c.getGraphic().getY() &&
+                       y < c.getGraphic().getY()+c.getGraphic().getHeight()) {
+                        canMove = false;
+                        
+                        if(x+graphic.getWidth() <= c.getGraphic().getX()) canMove = true;
+                    }
+                }
+                
+                if(x-ableSpeed < roomBounds[3]) canMove = false;
+                
+                if(canMove) {
                     x -= ableSpeed;
                     break;
                 }
@@ -109,7 +165,7 @@ public abstract class MovingCharacter extends GameCharacter {
     @Override
     public void update(int[] roomBounds, int[] connections, Player player, ArrayList<GameCharacter> nonMovingCharacters) {
         //move characters within the room
-        moveInRoom(roomBounds);
+        moveInRoom(roomBounds, nonMovingCharacters);
         
         //move characters between rooms
         moveBetweenRooms(connections);
