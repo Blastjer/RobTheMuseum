@@ -1,5 +1,6 @@
 package RobTheMuseum;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 
@@ -84,6 +85,10 @@ public class Guard extends MovingCharacter {
             }
         }
         setMovementDirections(movementDirections);
+        
+        //allow guard to walk through nonmoving characters if they aren't chasing the player
+        if(movementPhase == CHASING_PLAYER) setIgnoresBarriers(false);
+        else setIgnoresBarriers(true);
     }
     
     private boolean[] resetMovementDirections(boolean[] md) {
@@ -106,6 +111,28 @@ public class Guard extends MovingCharacter {
             System.out.println("You lose");
             System.exit(0);
         }
+    }
+    
+    @Override
+    public void moveInRoom(int[] rb, ArrayList<GameCharacter> nmc) {
+        //get the original location
+        JLabel oldGraphic = getGraphic();
+        Point oldLocation = new Point(oldGraphic.getX(), oldGraphic.getY());
+        
+        //move
+        super.moveInRoom(rb, nmc);
+        
+        //get the new location
+        JLabel newGraphic = getGraphic();
+        Point newLocation = new Point(newGraphic.getX(), newGraphic.getY());
+        
+        //if the guard hasn't moved, make them look asleep
+        if(newLocation.equals(oldLocation)) newGraphic.setIcon(new javax.swing.ImageIcon(getClass().getResource("./sprites/Guard_sleeping.png")));
+        //otherwise, make them look awake
+        else newGraphic.setIcon(new javax.swing.ImageIcon(getClass().getResource("./sprites/Guard.png")));
+        
+        //update the image
+        setGraphic(newGraphic);
     }
     
     @Override
