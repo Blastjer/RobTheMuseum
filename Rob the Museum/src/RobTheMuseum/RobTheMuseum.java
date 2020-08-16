@@ -20,7 +20,7 @@ public class RobTheMuseum extends javax.swing.JFrame {
     public RobTheMuseum() {
         initComponents();
         
-        museum = new Museum("./museums/TestMuseum1.txt");
+        museum = new Museum("./museums/Museum1.txt");
         
         roomBounds = new int[] {90, 510, 510, 90};
         
@@ -42,7 +42,7 @@ public class RobTheMuseum extends javax.swing.JFrame {
         roomNums.remove(playerRoom);
         
         //add guards
-        int numGuards = 1; //the number of guards in the museum
+        int numGuards = 3; //the number of guards in the museum
         for(int i = 1; i <= numGuards; i++) {
             int randRoom = (int)(Math.random()*roomNums.size());
             characters.add(new Guard(roomNums.get(randRoom)));
@@ -53,7 +53,7 @@ public class RobTheMuseum extends javax.swing.JFrame {
         int currentCharacters = characters.size(); //the number of character that currently exist
         
         //add artifact pedestals
-        numArtifacts = 7; //the number of artifacts in the museum
+        numArtifacts = 3; //the number of artifacts in the museum
         for(int i = currentCharacters; i < currentCharacters+numArtifacts; i++) {
             int randRoom = (int)(Math.random()*roomNums.size());
             characters.add(new ArtifactPedestal(roomNums.get(randRoom)));
