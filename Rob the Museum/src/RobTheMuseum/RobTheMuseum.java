@@ -20,7 +20,7 @@ public class RobTheMuseum extends javax.swing.JFrame {
     public RobTheMuseum() {
         initComponents();
         
-        museum = new Museum("./museums/Museum3_(LostForest).txt");
+        museum = new Museum("./museums/Museum5_(EthansMuseum3).txt");
         
         roomBounds = new int[] {90, 510, 510, 90};
         
